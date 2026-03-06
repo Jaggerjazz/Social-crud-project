@@ -6,10 +6,7 @@
 This is a social-based application designed to demonstrate full CRUD (Create, Read, Update, and Delete) functionality. The app allows users to interact within a community by sharing content, managing their profiles, and engaging with others in a streamlined, user-friendly environment.
 
 ## Environment & Tech Stack
-* **Runtime:** Node.js (Version 18 or higher)
-* **Database:** MongoDB (Planned for data persistence)
-* **Version Control:** Git & GitHub
-* **Configuration:** Environment variables managed via `.env` file (see `.env.example` for template).
+* **Placeholder until further notice
 
 ## Agile Planning
 
