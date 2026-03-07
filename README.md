@@ -1,3 +1,5 @@
+Group: Jasmine Cervantes and Melanie Avila
+
 # Community Cookbook (Application)
 
 ## Project Description
