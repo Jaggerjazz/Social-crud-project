@@ -32,7 +32,7 @@ A social web application for sharing and discovering recipes.
 
 ---
 
-## 🥗 Nutrition & Progress Notes
+## 🥗 Notes
 To ensure the app serves our specific community needs, we are prioritizing recipes that meet:
 - **Calories**
 - **Ingredients**
