@@ -7,8 +7,7 @@ We have initialized the Django environment and are now establishing the core pro
 ## 📋 Features
 - **User Recipes:** Share your favorite dishes.
 - **Community Feed:** Browse recipes from others.
-- **Nutrition Tracking:** Fields for Calorie and Protein counts (Target: 1,800cal / 120g protein).
-
+- **Nutrition Tracking:** Fields for Calorie count
 ## 🛠 Tech Stack
 - **Language:** Python 3.x
 - **Framework:** Django 5.x
