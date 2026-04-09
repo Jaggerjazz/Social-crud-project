@@ -12,4 +12,5 @@ urlpatterns = [
     
     # Registration (The missing link!)
     path('register/', views.register, name='register'),
+    
 ]
