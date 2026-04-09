@@ -4,36 +4,43 @@ Group: Jasmine Cervantes and Melanie Avila
 A social web application for sharing and discovering recipes.
 
 ## 🚧 PROJECT STATUS: SPRINT 2 (IN PROGRESS)
-**Current Focus:** Initializing Django App structure and Database Models.
 - [x] Sprint 1: Repository setup & Agile Documentation (COMPLETED)
-- [ ] Sprint 2: App creation & Models (IN PROGRESS)
+- [x] Sprint 2: App creation & Models (IN PROGRESS)
 
 ---
 
-## 📋 Project Planning
-### User Stories
-- **Create (C):** As a user, I want to submit a new recipe with a title, **ingredients** list, and instructions so I can share it with others.
-- **Read (R):** As a user, I want to view a feed of all community recipes so I can find dinner inspiration.
-- **Update (U):** As a user, I want to edit my posted recipes to update ingredients or fix instructions as I perfect them.
-- **Delete (D):** As a user, I want to remove a recipe I’ve shared if I no longer want it on the platform.
-
-### Sprints
+## 📋 Project Planning: Sprints
 - **Sprint 1:** Repository setup and Agile documentation.
-- **Sprint 2:** Django structure and App creation.
-- **Sprint 3:** Building "Create" and "Read" views.
-- **Sprint 4:** "Update/Delete" functionality and UI styling.
+- **Sprint 2:** Django structure, App creation, and Home View UI (Current Delivery).
+- **Sprint 3:** Building "Create" and "Read" views with User Management.
+- **Sprint 4:** "Update/Delete" functionality and final UI styling.
 
 ---
 
-## 🛠 Tech Stack
-- **Framework:** Django 5.x
+## 👤 User Stories (The "Why")
+
+* **Discovery:** "As a baker looking for new ideas, I want to **browse community recipes** in a central feed so that I can find dinner inspiration and try new flavors shared by others."
+  
+* **Organization:** "As a busy home cook, I want to **digitize my family recipes**, so that I never have to worry about losing my physical recipe cards."
+  
+* **Refinement:** "As I perfect my cooking techniques, I want to **edit my existing recipes**, so that I can update measurements or add 'pro-tips' for the community."
+  
+* **Privacy:** "As a user managing my digital profile, I want to **remove a recipe** I’ve previously shared, so that I can control what content I have available on the public platform."
+
+---
+
+## 🛠 Functional Requirements (The CRUD)
+*The technical actions the application must perform:*
+
+* **Create:** The system shall allow users to submit new recipes with a title, ingredients, and instructions.
+* **Read:** The system shall display a list of all submitted recipes on the home feed and search results.
+* **Update:** The system shall allow recipe owners to modify the content of their existing posts.
+* **Delete:** The system shall allow recipe owners to permanently remove their posts from the database.
+
+---
+
+## 💻 Tech Stack
+- **Framework:** Django 4.2.x (LTS)
 - **Language:** Python 3.x
 - **Database:** SQLite
-
----
-
-## 🥗 Notes
-To ensure the app serves our specific community needs, we are prioritizing recipes that meet:
-- **Calories**
-- **Ingredients**
-- **Instructions**
+- **Collaboration:** Git Bash / GitHub
