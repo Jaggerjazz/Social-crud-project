@@ -18,3 +18,5 @@ def register(request):
 
 	return render(request, "register.html", {"form":form})
 
+
+
