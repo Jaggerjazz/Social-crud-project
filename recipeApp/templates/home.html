@@ -1,9 +1,7 @@
-
 {% extends 'base.html' %}
+{% load static %}  {% block content %}
+    <h1>Hello Bakers</h1>
+    <p>Let us eat sweets!</p>
 
-{% block content %}
-
-<h1> Hello Bakers</h1>
-<p>Let us eat sweets!</p>
-
+    <img src="{% static 'images/bakedsweets.jpg' %}" alt="Baked Sweets" style="max-width: 100%; height: auto;">
 {% endblock %}
