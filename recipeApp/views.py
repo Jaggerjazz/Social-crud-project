@@ -5,6 +5,10 @@ from django.contrib import messages
 def home(request):
 	return render(request, 'home.html',{})
 
+def recipes(request):
+	return render(request, 'recipes.html',{})
+#def add_recipe(request):
+	return render(request, 'add_recipe.html',{})
 
 def register(request):
 	if request.method == "POST":
