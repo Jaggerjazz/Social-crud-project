@@ -1,5 +1,29 @@
 {% extends 'base.html' %}
 {% block content %}
     <h1>Profile</h1>
-    <p>Welcome to your profile page! Here you can view and manage your recipes, update your account information, and connect with other food enthusiasts in our community. Explore your culinary journey and share your delicious creations with others!</p>
-{% endblock %}
+    <div class="container mt-2">
+        <p>Welcome to your profile page!<p>
+        <p>Here you can view and manage your recipes, update your account information, and connect with other food enthusiasts in our community.<p>
+        <p>Explore your culinary journey and share your delicious creations with others!</p>
+    </div>
+    <div class="container mt-5">
+        <h2>Hello, {{ user.username }}!</h2>
+        <p>Here are your profile details:</p>
+        <ul>
+            <li><strong>Username:</strong> {{ user.username }}</li>
+            <li><strong>Email:</strong> {{ user.email }}</li>
+            <!-- Add more profile details as needed -->
+        </ul>
+        <h3>Your Recipes</h3>
+        {% if recipes %}
+            <ul>
+                {% for recipe in recipes %}
+                    <li>{{ recipe.title }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You haven't added any recipes yet. Start sharing your culinary creations with the community!</p>
+        {% endif %}
+    </div>
+
+    {% endblock %}

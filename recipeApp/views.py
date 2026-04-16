@@ -31,6 +31,10 @@ def profile(request):
 	return render(request, 'profile.html', {})
 
 @login_required
+def add_recipe(request):
+	return render(request, 'add_recipe.html', {})
+
+@login_required
 def logout(request):
 	return render(request, 'logout.html', {})
 
