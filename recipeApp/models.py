@@ -4,17 +4,12 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
 	user = models.OneToOneField(User, on_delete = models.CASCADE)
 	bio = models.TextField(blank= True)
-	student_id = models.IntegerField(blank = True)
-	enrolled = models.BooleanField(default=True)
-
 
 	def __str__(self):
 		return self.user.username
 	
-
 class Recipe(models.Model):
 	title = models.CharField(max_length=100)
-	description = models.TextField()
 	ingredients = models.TextField()
 	instructions = models.TextField()
 	created_at = models.DateTimeField(auto_now_add=True)

@@ -1,8 +1,22 @@
 {% extends 'base.html' %}
+
 {% block content %}
-    <h1>Add Recipe</h1>
-    <p>Name: <input type="text" name="name"></p>
-    <p>Ingredients: <textarea name="ingredients"></textarea></p>
-    <p>Instructions: <textarea name="instructions"></textarea></p>
-    <button type="submit">Add Recipe</button>
+<div class="container">
+    <h2>Add Recipe</h2>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <button type="submit" class="btn btn-primary">Save Recipe</button>
+        <a href="{% url 'recipes' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
 {% endblock %}
