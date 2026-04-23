@@ -3,9 +3,11 @@ Group: Jasmine Cervantes and Melanie Avila
 # 🍳 Community Cookbook
 A social web application for sharing and discovering recipes.
 
-## 🚧 PROJECT STATUS: SPRINT 2 (IN PROGRESS)
+## 🚧 PROJECT STATUS: SPRINT 2 AND SPRINT 3 (IN PROGRESS)
 - [x] Sprint 1: Repository setup & Agile Documentation (COMPLETED)
 - [x] Sprint 2: App creation & Models (IN PROGRESS)
+- [x] Sprint 3: Building "Create" and "Read" views with User Management. (IN PROGRESS)
+- [ ] Sprint 4: "Update/Delete" functionality and final UI styling.
 
 ---
 
