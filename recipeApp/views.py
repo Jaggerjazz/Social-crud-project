@@ -9,7 +9,8 @@ def home(request):
 	return render(request, 'home.html',{})
 
 def recipes(request):
-	return render(request, 'recipes.html',{})
+	all_recipes = Recipe.objects.all().order_by('-created_at')
+	return render(request, 'recipes.html', {"recipes": all_recipes})
 
 def register(request):
 	if request.method == "POST":
@@ -22,7 +23,6 @@ def register(request):
 		form = UserCreationForm()
 
 	return render(request, "register.html", {"form":form})
-	
 
 @login_required
 def profile(request):
@@ -50,10 +50,6 @@ def add_recipe(request):
 
 	return render(request, 'add_recipe.html', {"form": form})
 
-def recipes(request):
-	all_recipes = Recipe.objects.all().order_by('-created_at')
-	return render(request, 'recipes.html', {"recipes": recipes})
-
 @login_required
 def recipe_detail(request, id):
 	recipe = Recipe.objects.get(id=id)
@@ -69,3 +65,26 @@ def delete_recipe(request, id):
     else:
         messages.error(request, "You don't have permission to delete this recipe.")
     return redirect('profile')
+
+@login_required
+def edit_recipe(request, id):
+	recipe = Recipe.objects.get(id=id)
+	# Make sure only the author can edit
+	if recipe.author != request.user:
+		messages.error(request, "You don't have permission to edit this recipe.")
+		return redirect('profile')
+
+	if request.method == "POST":
+		form = RecipeForm(request.POST, instance=recipe)
+		if form.is_valid():
+			form.save()
+			messages.success(request, "Recipe updated successfully!")
+			return redirect('recipe_detail', id=recipe.id)
+		else:
+			messages.error(request, "Please correct the errors below.")
+	else:
+		form = RecipeForm(instance=recipe)
+
+	return render(request, 'edit_recipe.html', {"form": form, "recipe": recipe})
+
+

@@ -11,6 +11,7 @@ urlpatterns = [
     path('recipes/', views.recipes, name='recipes'),
     path('recipes/add/', views.add_recipe, name='add_recipe'),
     path('recipes/<int:id>/', views.recipe_detail, name='recipe_detail'),    path('recipes/<int:id>/delete/', views.delete_recipe, name='delete_recipe'),
+    path('recipes/<int:id>/edit/', views.edit_recipe, name='edit_recipe'),
     
     # Login & Logout (Built-in Django)
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
