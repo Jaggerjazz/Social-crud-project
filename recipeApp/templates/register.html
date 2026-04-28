@@ -1,9 +1,14 @@
-<h2>Register</h2>
+{% extends 'base.html' %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Create account</button>
-</form>
+{% block content %}
 
-<a href="{% url 'login' %}">Login</a>
+<div class="container mt-5">
+    <h2>Register for Community Cookbook</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Create account</button>
+    </form>
+</div>
+
+{% endblock %}
