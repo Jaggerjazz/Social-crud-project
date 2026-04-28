@@ -12,21 +12,9 @@
         <li class="nav-item">
           <a class="nav-link" href="{% url 'recipes' %}">Recipes</a>
         </li>
-<<<<<<< HEAD
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            +
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/recipes/add">Add</a></li>
-            <li><a class="dropdown-item" href="/favorites">Favorites</a></li>
-          </ul>
-=======
-        
         {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'add_recipe' %}">Add Recipe</a>
->>>>>>> 769eb3cf66128a71bbd2ed720b8f0e9e05cbc4f9
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
