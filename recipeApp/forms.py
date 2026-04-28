@@ -4,11 +4,12 @@ from .models import Recipe
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['title', 'ingredients', 'instructions']
+        fields = ['title', 'ingredients', 'instructions', 'image']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'ingredients': forms.Textarea(attrs={'class': 'form-control'}),
             'instructions': forms.Textarea(attrs={'class': 'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
         }
     def clean_title(self):
         title = self.cleaned_data.get('title')

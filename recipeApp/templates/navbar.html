@@ -1,17 +1,18 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">CookBook</a>
+    <a class="navbar-brand" href="{% url 'home' %}">Community Cookbook</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/home">Home</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/recipes">Recipes</a>
+          <a class="nav-link" href="{% url 'recipes' %}">Recipes</a>
         </li>
+<<<<<<< HEAD
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             +
@@ -20,37 +21,44 @@
             <li><a class="dropdown-item" href="/recipes/add">Add</a></li>
             <li><a class="dropdown-item" href="/favorites">Favorites</a></li>
           </ul>
+=======
+        
+        {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'add_recipe' %}">Add Recipe</a>
+>>>>>>> 769eb3cf66128a71bbd2ed720b8f0e9e05cbc4f9
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Enjoy!</a>
+          <a class="nav-link" href="{% url 'profile' %}">My Profile</a>
         </li>
+        {% endif %}
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+      
+      <form class="d-flex" role="search" action="{% url 'search' %}" method="GET">
+        <input class="form-control me-2" type="search" name="q" placeholder="Search recipes..." aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>
       </form>
-      {% if user.is_authenticated %}
-        <a href="/profile" class="btn btn-outline-primary ms-1">
-          <i class="fas fa-user"></i> Profile
-        </a>
-        <form action="{% url 'logout' %}" method="post" style="display: inline;">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-outline-danger ms-1">
-          <i class="fas fa-sign-out-alt"></i> Logout
-          </button>
-        </form>
-      {% else %}
-        <a href="/login" class="btn btn-outline-primary ms-1">
-          <i class="fas fa-sign-in-alt"></i> Login
-        </a>
-        <a href="/register" class="btn btn-primary ms-1">
-          <i class="fas fa-user-plus"></i> Sign Up
-        </a>
-      {% endif %}
+
+      <div class="ms-3 d-flex align-items-center">
+        {% if user.is_authenticated %}
+            <span class="navbar-text me-3 text-dark">Hello, {{ user.username }}!</span>
+            <form action="{% url 'logout' %}" method="post" class="m-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">
+                  <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-outline-primary me-2">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+            <a href="{% url 'register' %}" class="btn btn-primary ms-2">
+                <i class="fas fa-user-plus"></i> Sign Up
+            </a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </nav>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    </div>
-  </div>
-</nav>
