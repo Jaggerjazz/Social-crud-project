@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ recipe.name }} - CookBook{% endblock %}
+{% block title %}{{ recipe.title }} - CookBook{% endblock %}  
 
 {% block content %}
 <div class="container mt-4">
@@ -8,10 +8,10 @@
         <div class="col-md-8 mx-auto">
             <div class="card shadow-sm">
                 {% if recipe.image %}
-                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.name }}">
+                    <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}">  
                 {% endif %}
                 <div class="card-body">
-                    <h1 class="card-title">{{ recipe.name }}</h1>
+                    <h1 class="card-title">{{ recipe.title }}</h1>  
                     <p class="text-muted">
                         <i class="fas fa-user"></i> By: {{ recipe.author.username }} |
                         <i class="far fa-calendar-alt"></i> {{ recipe.created_at|date:"F d, Y" }}

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1>{{ recipe.name }}</h1>
+    <h1>{{ recipe.title }}</h1>  
     <p><strong>Ingredients:</strong></p>
-    <p>{{ recipe.ingredients }}</p>
+    <p>{{ recipe.ingredients|linebreaks }}</p>  
     <p><strong>Instructions:</strong></p>
-    <p>{{ recipe.instructions }}</p>
-    <button type="button" onclick="window.history.back();">Back to Recipes</button>
+    <p>{{ recipe.instructions|linebreaks }}</p>  
+    <button type="button" onclick="window.history.back();" class="btn btn-secondary">Back to Recipes</button>
 {% endblock %}

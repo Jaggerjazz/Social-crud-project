@@ -24,14 +24,14 @@
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm">
                         {% if recipe.image %}
-                            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.name }}" style="height: 200px; object-fit: cover;">
+                            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">  
                         {% else %}
                             <div class="bg-light text-center py-5">
                                 <i class="fas fa-utensils fa-3x text-muted"></i>
                             </div>
                         {% endif %}
                         <div class="card-body">
-                            <h5 class="card-title">{{ recipe.name }}</h5>
+                            <h5 class="card-title">{{ recipe.title }}</h5>  
                             <p class="card-text text-muted small">
                                 <i class="fas fa-user"></i> By: {{ recipe.author.username }}
                             </p>

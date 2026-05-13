@@ -16,7 +16,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.title }}</h5>
                         <p class="card-text">{{ recipe.ingredients|truncatewords:15 }}</p>
-                        <a href="#" class="btn btn-primary">View Full Recipe</a>
+                        <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">View Full Recipe</a>
                     </div>
                 </div>
             </div>

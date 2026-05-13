@@ -37,10 +37,10 @@
                                 <div class="col-md-6 mb-3">
                                     <div class="card h-100">
                                         {% if recipe.image %}
-                                            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.name }}" style="height: 150px; object-fit: cover;">
+                                            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 150px; object-fit: cover;">
                                         {% endif %}
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ recipe.name }}</h5>
+                                            <h5 class="card-title">{{ recipe.title }}</h5>  
                                             <p class="card-text small">{{ recipe.ingredients|truncatewords:15 }}</p>
                                             <small class="text-muted">
                                                 Added: {{ recipe.created_at|date:"M d, Y" }}

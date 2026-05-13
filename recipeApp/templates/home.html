@@ -1,7 +1,205 @@
 {% extends 'base.html' %}
-{% load static %}  {% block content %}
-    <h1>Hello Bakers</h1>
-    <p>Let us eat sweets!</p>
+{% load static %}
 
-    <img src="{% static 'images/bakedsweets.jpg' %}" alt="Baked Sweets" style="max-width: 100%; height: auto;">
+{% block title %}Welcome to Community Cookbook{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section bg-primary text-white py-5 mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Share Your Favorite Recipes</h1>
+                <p class="lead mb-4">Join our community of food lovers! Discover delicious recipes, share your culinary creations, and get inspired by home cooks from around the world.</p>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'register' %}" class="btn btn-light btn-lg me-3">
+                        <i class="fas fa-user-plus"></i> Get Started
+                    </a>
+                    <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </a>
+                {% else %}
+                    <a href="{% url 'add_recipe' %}" class="btn btn-light btn-lg">
+                        <i class="fas fa-plus-circle"></i> Share Your Recipe
+                    </a>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 text-center mt-4 mt-lg-0">
+                <img src="{% static 'images/hero-cooking.svg' %}" alt="Cooking" class="img-fluid" style="max-height: 300px;" onerror="this.src='https://via.placeholder.com/400x300?text=Community+Cookbook'">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section mb-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body py-4">
+                        <i class="fas fa-utensils fa-3x text-primary mb-3"></i>
+                        <h3 class="h2 fw-bold">{{ total_recipes }}</h3>
+                        <p class="text-muted mb-0">Recipes Shared</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body py-4">
+                        <i class="fas fa-users fa-3x text-primary mb-3"></i>
+                        <h3 class="h2 fw-bold">{{ total_users }}</h3>
+                        <p class="text-muted mb-0">Happy Cooks</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body py-4">
+                        <i class="fas fa-clock fa-3x text-primary mb-3"></i>
+                        <h3 class="h2 fw-bold">{{ recent_count }}</h3>
+                        <p class="text-muted mb-0">Added This Month</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured/Categories Section -->
+<section class="categories-section mb-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Explore by Category</h2>
+        <div class="row">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card text-center border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <i class="fas fa-bread-slice fa-2x text-primary mb-2"></i>
+                        <h6>Breakfast</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card text-center border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <i class="fas fa-utensils fa-2x text-primary mb-2"></i>
+                        <h6>Main Dishes</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card text-center border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <i class="fas fa-cake-candles fa-2x text-primary mb-2"></i>
+                        <h6>Desserts</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="card text-center border-0 shadow-sm h-100">
+                    <div class="card-body">
+                        <i class="fas fa-carrot fa-2x text-primary mb-2"></i>
+                        <h6>Vegetarian</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Recipes Section -->
+<section class="featured-recipes mb-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="mb-0">Featured Recipes</h2>
+            <a href="{% url 'recipes' %}" class="btn btn-outline-primary">View All →</a>
+        </div>
+        
+        {% if featured_recipes %}
+            <div class="row">
+                {% for recipe in featured_recipes %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm hover-shadow transition">
+                            {% if recipe.image %}
+                                <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 220px; object-fit: cover;">
+                            {% else %}
+                                <div class="bg-light text-center py-5" style="height: 220px;">
+                                    <i class="fas fa-utensils fa-3x text-muted"></i>
+                                </div>
+                            {% endif %}
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h5 class="card-title mb-0">{{ recipe.title|truncatechars:40 }}</h5>
+                                    {% if recipe.id in user_favorites %}
+                                        <i class="fas fa-heart text-danger"></i>
+                                    {% endif %}
+                                </div>
+                                <p class="card-text text-muted small mb-2">
+                                    <i class="fas fa-user"></i> {{ recipe.author.username }}
+                                </p>
+                                <p class="card-text">{{ recipe.ingredients|truncatewords:12 }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent">
+                                <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary btn-sm w-100">
+                                    View Recipe <i class="fas fa-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5 bg-light rounded">
+                <i class="fas fa-utensils fa-4x text-muted mb-3"></i>
+                <h4>No recipes yet</h4>
+                <p>Be the first to share a recipe with the community!</p>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'add_recipe' %}" class="btn btn-primary">Share Your Recipe</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-primary">Login to Share</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section bg-light py-5 mt-5">
+    <div class="container text-center">
+        <h3 class="mb-3">Ready to Share Your Culinary Masterpiece?</h3>
+        <p class="lead mb-4">Join thousands of food lovers and share your favorite recipes with the world.</p>
+        {% if user.is_authenticated %}
+            <a href="{% url 'add_recipe' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus"></i> Add Your Recipe
+            </a>
+        {% else %}
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg">
+                <i class="fas fa-user-plus"></i> Join Now - It's Free!
+            </a>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .transition {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .hero-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .stats-section .card {
+        transition: transform 0.3s ease;
+    }
+    
+    .stats-section .card:hover {
+        transform: translateY(-5px);
+    }
+</style>
 {% endblock %}
