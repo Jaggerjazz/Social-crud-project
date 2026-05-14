@@ -10,8 +10,10 @@ urlpatterns = [
     # Search Functionality
     path('search/', views.search, name='search'),
 
-    # Recipes (Melanie's CRUD features)
     path('recipes/', views.recipes, name='recipes'),
+    
+    path('quick-recipes/', views.quick_recipes, name='quick_recipes'),
+    
     path('recipes/add/', views.add_recipe, name='add_recipe'),
     path('recipes/<int:id>/', views.recipe_detail, name='recipe_detail'),
     path('recipes/<int:id>/edit/', views.edit_recipe, name='edit_recipe'),
@@ -20,6 +22,7 @@ urlpatterns = [
     path('favorites/', views.favorites_page, name='favorites'),
     path('favorite/<int:id>/', views.favorite_recipe, name='favorite_recipe'),
     path('ajax/favorite/<int:id>/', views.ajax_favorite_recipe, name='ajax_favorite_recipe'),
+    
     # Profile
     path('profile/', views.profile, name='profile'),
 
