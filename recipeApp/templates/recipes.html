@@ -28,12 +28,10 @@
                            class="btn btn-outline-primary mb-2 {% if not current_category or current_category == 'all' %}active{% endif %}">
                             All
                         </a>
-                        
-                        <!-- UPDATED LOOP TO USE THE CATEGORY MODEL -->
-                        {% for cat in categories_list %}
-                            <a href="?category={{ cat.name }}&sort={{ current_sort }}" 
-                               class="btn btn-outline-primary mb-2 {% if current_category == cat.name %}active{% endif %}">
-                                <i class="{{ cat.icon }}"></i> {{ cat.name }}
+                        {% for cat_code, cat_name in categories %}
+                            <a href="?category={{ cat_code }}&sort={{ current_sort }}" 
+                               class="btn btn-outline-primary mb-2 {% if current_category == cat_code %}active{% endif %}">
+                                <i class="fas fa-tag"></i> {{ cat_name }}
                             </a>
                         {% endfor %}
 
