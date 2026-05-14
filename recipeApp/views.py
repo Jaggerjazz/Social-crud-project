@@ -216,7 +216,16 @@ def ajax_favorite_recipe(request, id):
         'message': message,
         'favorite_count': recipe.favorited_by.count()
     })
-
+def quick_recipes(request):
+    """View to display recipes that take 30 minutes or less"""
+    # This captures everything 30 mins and under, including your catfish!
+    quick_list = Recipe.objects.filter(prep_time__lte=30).order_by('prep_time')
+    
+    context = {
+        'recipes': quick_list,
+        'title': 'Under 30 Minutes'
+    }
+    return render(request, 'recipes.html', context)
 def quick_recipes(request):
     """View to display recipes that take 30 minutes or less"""
     # This captures everything 30 mins and under, including your catfish!

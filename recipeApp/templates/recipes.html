@@ -28,14 +28,15 @@
                            class="btn btn-outline-primary mb-2 {% if not current_category or current_category == 'all' %}active{% endif %}">
                             All
                         </a>
-                        {% for cat_code, cat_name in categories %}
-                            <a href="?category={{ cat_code }}&sort={{ current_sort }}" 
-                               class="btn btn-outline-primary mb-2 {% if current_category == cat_code %}active{% endif %}">
-                                <i class="fas fa-tag"></i> {{ cat_name }}
+                        
+                        <!-- UPDATED LOOP TO USE THE CATEGORY MODEL -->
+                        {% for cat in categories_list %}
+                            <a href="?category={{ cat.name }}&sort={{ current_sort }}" 
+                               class="btn btn-outline-primary mb-2 {% if current_category == cat.name %}active{% endif %}">
+                                <i class="{{ cat.icon }}"></i> {{ cat.name }}
                             </a>
                         {% endfor %}
 
-                        <!-- SINGLE CORRECTED QUICK & EASY BUTTON -->
                         <a href="{% url 'quick_recipes' %}" 
                            class="btn btn-outline-primary mb-2 {% if request.resolver_match.url_name == 'quick_recipes' %}active{% endif %}">
                             <i class="fas fa-bolt"></i> Quick & Easy
@@ -80,13 +81,15 @@
                             </div>
                         {% endif %}
                         
+                        <!-- UPDATED TO SHOW MULTIPLE CATEGORY BADGES -->
                         <div class="position-absolute top-0 start-0 m-2">
-                            <span class="badge bg-primary">
-                                <i class="fas fa-tag"></i> {{ recipe.get_category_display }}
-                            </span>
+                            {% for cat in recipe.categories.all %}
+                                <span class="badge bg-primary">
+                                    <i class="{{ cat.icon }}"></i> {{ cat.name }}
+                                </span>
+                            {% endfor %}
                         </div>
                         
-                        <!-- Favorite Button (Heart) -->
                         {% if user.is_authenticated %}
                             <div class="position-absolute top-0 end-0 m-2">
                                 <a href="{% url 'favorite_recipe' recipe.id %}" 
@@ -150,7 +153,6 @@
         padding: 0.35rem 0.65rem;
     }
     
-    /* Favorite button hover effect */
     .rounded-circle:hover {
         transform: scale(1.1);
         transition: transform 0.2s ease;
