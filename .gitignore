@@ -1,0 +1,4 @@
+# Database
+*.db
+db.sqlite3
+mydb.py
