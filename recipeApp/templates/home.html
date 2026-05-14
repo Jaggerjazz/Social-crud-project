@@ -4,7 +4,6 @@
 {% block title %}Welcome to Community Cookbook{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
 <section class="hero-section bg-primary text-white py-5 mb-5">
     <div class="container">
         <div class="row align-items-center">
@@ -31,7 +30,6 @@
     </div>
 </section>
 
-<!-- Stats Section -->
 <section class="stats-section mb-5">
     <div class="container">
         <div class="row text-center">
@@ -66,48 +64,103 @@
     </div>
 </section>
 
-<!-- Featured/Categories Section -->
-<section class="categories-section mb-5">
+<!-- Categories Section -->
+<section class="popular-categories mb-5">
     <div class="container">
-        <h2 class="text-center mb-4">Explore by Category</h2>
+        <h2 class="text-center mb-4">Browse by Category</h2>
         <div class="row">
             <div class="col-md-3 col-6 mb-3">
-                <div class="card text-center border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <i class="fas fa-bread-slice fa-2x text-primary mb-2"></i>
-                        <h6>Breakfast</h6>
+                <a href="{% url 'recipes' %}?category=breakfast" class="text-decoration-none">
+                    <div class="card text-center border-0 shadow-sm category-card">
+                        <div class="card-body">
+                            <i class="fas fa-bread-slice fa-3x text-primary mb-2"></i>
+                            <h6 class="mb-0">Breakfast</h6>
+                            <small class="text-muted">Start your day right</small>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-3 col-6 mb-3">
-                <div class="card text-center border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <i class="fas fa-utensils fa-2x text-primary mb-2"></i>
-                        <h6>Main Dishes</h6>
+                <a href="{% url 'recipes' %}?category=lunch" class="text-decoration-none">
+                    <div class="card text-center border-0 shadow-sm category-card">
+                        <div class="card-body">
+                            <i class="fas fa-utensils fa-3x text-primary mb-2"></i>
+                            <h6 class="mb-0">Lunch</h6>
+                            <small class="text-muted">Midday meals</small>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-3 col-6 mb-3">
-                <div class="card text-center border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <i class="fas fa-cake-candles fa-2x text-primary mb-2"></i>
-                        <h6>Desserts</h6>
+                <a href="{% url 'recipes' %}?category=dinner" class="text-decoration-none">
+                    <div class="card text-center border-0 shadow-sm category-card">
+                        <div class="card-body">
+                            <i class="fas fa-utensil-spoon fa-3x text-primary mb-2"></i>
+                            <h6 class="mb-0">Dinner</h6>
+                            <small class="text-muted">Evening favorites</small>
+                        </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-md-3 col-6 mb-3">
-                <div class="card text-center border-0 shadow-sm h-100">
-                    <div class="card-body">
-                        <i class="fas fa-carrot fa-2x text-primary mb-2"></i>
-                        <h6>Vegetarian</h6>
+                <a href="{% url 'recipes' %}?category=dessert" class="text-decoration-none">
+                    <div class="card text-center border-0 shadow-sm category-card">
+                        <div class="card-body">
+                            <i class="fas fa-cake-candles fa-3x text-primary mb-2"></i>
+                            <h6 class="mb-0">Dessert</h6>
+                            <small class="text-muted">Sweet treats</small>
+                        </div>
                     </div>
-                </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <a href="{% url 'recipes' %}?category=vegetarian" class="text-decoration-none">
+                    <div class="card text-center border-0 shadow-sm category-card">
+                        <div class="card-body">
+                            <i class="fas fa-carrot fa-3x text-primary mb-2"></i>
+                            <h6 class="mb-0">Vegetarian</h6>
+                            <small class="text-muted">Meat-free options</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <a href="{% url 'recipes' %}?category=quick" class="text-decoration-none">
+                    <div class="card text-center border-0 shadow-sm category-card">
+                        <div class="card-body">
+                            <i class="fas fa-clock fa-3x text-primary mb-2"></i>
+                            <h6 class="mb-0">Quick & Easy</h6>
+                            <small class="text-muted">Under 30 minutes</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <a href="{% url 'recipes' %}?category=appetizer" class="text-decoration-none">
+                    <div class="card text-center border-0 shadow-sm category-card">
+                        <div class="card-body">
+                            <i class="fas fa-utensils fa-3x text-primary mb-2"></i>
+                            <h6 class="mb-0">Appetizers</h6>
+                            <small class="text-muted">Starters & snacks</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <a href="{% url 'recipes' %}" class="text-decoration-none">
+                    <div class="card text-center border-0 shadow-sm category-card bg-primary text-white">
+                        <div class="card-body">
+                            <i class="fas fa-eye fa-3x mb-2"></i>
+                            <h6 class="mb-0">View All</h6>
+                            <small>See all recipes</small>
+                        </div>
+                    </div>
+                </a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Featured Recipes Section -->
 <section class="featured-recipes mb-5">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -162,8 +215,6 @@
         {% endif %}
     </div>
 </section>
-
-<!-- Call to Action Section -->
 <section class="cta-section bg-light py-5 mt-5">
     <div class="container text-center">
         <h3 class="mb-3">Ready to Share Your Culinary Masterpiece?</h3>
@@ -177,6 +228,24 @@
                 <i class="fas fa-user-plus"></i> Join Now - It's Free!
             </a>
         {% endif %}
+    </div>
+</section>
+<section class="popular-categories mb-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Popular Categories</h2>
+        <div class="row">
+            <div class="col-md-3 col-6 mb-3">
+                <a href="{% url 'recipes' %}?category=breakfast" class="text-decoration-none">
+                    <div class="card text-center border-0 shadow-sm">
+                        <div class="card-body">
+                            <i class="fas fa-bread-slice fa-3x text-primary mb-2"></i>
+                            <h6>Breakfast</h6>
+                            <small class="text-muted">{{ categories_count.Breakfast|default:0 }} recipes</small>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
     </div>
 </section>
 
