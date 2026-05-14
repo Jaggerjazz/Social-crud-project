@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}My Favorite Recipes - CookBook{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1>
+                <i class="fas fa-heart text-danger"></i> My Favorite Recipes
+            </h1>
+            <p class="text-muted">Recipes you've saved for later</p>
+        </div>
+    </div>
+
+    {% if favorite_recipes %}
+        <div class="row">
+            {% for recipe in favorite_recipes %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        {% if recipe.image %}
+                            <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
+                        {% else %}
+                            <div class="bg-light text-center py-5" style="height: 200px;">
+                                <i class="fas fa-utensils fa-3x text-muted"></i>
+                            </div>
+                        {% endif %}
+                        
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <h5 class="card-title">{{ recipe.title }}</h5>
+                                <a href="{% url 'favorite_recipe' recipe.id %}" class="text-danger" onclick="return confirm('Remove from favorites?')">
+                                    <i class="fas fa-heart fa-lg"></i>
+                                </a>
+                            </div>
+                            
+                            <p class="card-text text-muted small">
+                                <i class="fas fa-user"></i> {{ recipe.author.username }}
+                            </p>
+                            <p class="card-text">{{ recipe.ingredients|truncatewords:20 }}</p>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary w-100">
+                                View Recipe <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-5 bg-light rounded">
+            <i class="fas fa-heart-broken fa-4x text-muted mb-3"></i>
+            <h3>No favorites yet</h3>
+            <p class="lead">Start saving your favorite recipes by clicking the heart icon!</p>
+            <a href="{% url 'recipes' %}" class="btn btn-primary mt-3">
+                <i class="fas fa-search"></i> Browse Recipes
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -17,6 +17,9 @@ urlpatterns = [
     path('recipes/<int:id>/edit/', views.edit_recipe, name='edit_recipe'),
     path('recipes/<int:id>/delete/', views.delete_recipe, name='delete_recipe'),
 
+    path('favorites/', views.favorites_page, name='favorites'),
+    path('favorite/<int:id>/', views.favorite_recipe, name='favorite_recipe'),
+    path('ajax/favorite/<int:id>/', views.ajax_favorite_recipe, name='ajax_favorite_recipe'),
     # Profile
     path('profile/', views.profile, name='profile'),
 
