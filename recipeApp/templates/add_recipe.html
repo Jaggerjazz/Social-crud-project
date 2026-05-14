@@ -20,7 +20,19 @@
                                         <span class="text-danger">*</span>
                                     {% endif %}
                                 </label>
-                                {{ field }}
+                                
+                                <!-- Special handling for categories (many-to-many) -->
+                                {% if field.name == 'categories' %}
+                                    <select name="{{ field.name }}" multiple class="form-select" size="5">
+                                        {% for category in field.field.queryset %}
+                                            <option value="{{ category.id }}">{{ category.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <small class="form-text text-muted">Hold Ctrl to select multiple categories</small>
+                                {% else %}
+                                    {{ field }}
+                                {% endif %}
+                                
                                 {% if field.help_text %}
                                     <small class="form-text text-muted">{{ field.help_text }}</small>
                                 {% endif %}

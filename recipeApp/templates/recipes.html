@@ -28,10 +28,11 @@
                            class="btn btn-outline-primary mb-2 {% if not current_category or current_category == 'all' %}active{% endif %}">
                             All
                         </a>
-                        {% for cat_code, cat_name in categories %}
-                            <a href="?category={{ cat_code }}&sort={{ current_sort }}" 
-                               class="btn btn-outline-primary mb-2 {% if current_category == cat_code %}active{% endif %}">
-                                <i class="fas fa-tag"></i> {{ cat_name }}
+                        <!-- FIXED: Use categories (plural) not the old category list -->
+                        {% for category in categories %}
+                            <a href="?category={{ category.name|lower }}&sort={{ current_sort }}" 
+                               class="btn btn-outline-primary mb-2 {% if current_category == category.name|lower %}active{% endif %}">
+                                <i class="fas {{ category.icon }}"></i> {{ category.name }}
                             </a>
                         {% endfor %}
 
@@ -79,10 +80,10 @@
                             </div>
                         {% endif %}
                         
-                        <!-- UPDATED TO SHOW MULTIPLE CATEGORY BADGES -->
+                        <!-- FIXED: Show multiple category badges -->
                         <div class="position-absolute top-0 start-0 m-2">
                             {% for cat in recipe.categories.all %}
-                                <span class="badge bg-primary">
+                                <span class="badge bg-primary mb-1">
                                     <i class="{{ cat.icon }}"></i> {{ cat.name }}
                                 </span>
                             {% endfor %}

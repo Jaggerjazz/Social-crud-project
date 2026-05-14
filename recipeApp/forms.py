@@ -4,10 +4,12 @@ from .models import Recipe
 class RecipeForm(forms.ModelForm):
     class Meta:
         model = Recipe
-        fields = ['title', 'category', 'ingredients', 'instructions', 'image', 'prep_time', 'cook_time']
+        fields = ['title', 'categories', 'ingredients', 'instructions', 'image', 'prep_time', 'cook_time']
+        # Changed from 'category' to 'categories' ↑
+        
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter recipe title'}),
-            'category': forms.Select(attrs={'class': 'form-select'}),
+            'categories': forms.SelectMultiple(attrs={'class': 'form-select'}),  # Changed to SelectMultiple
             'ingredients': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'placeholder': 'List each ingredient on a new line'}),
             'instructions': forms.Textarea(attrs={'class': 'form-control', 'rows': 8, 'placeholder': 'Step by step instructions'}),
             'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),

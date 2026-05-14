@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
@@ -7,35 +6,50 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.utils import timezone  
 from datetime import timedelta  
+from django.contrib.auth.models import User  
 from .models import Recipe, Profile, Category
 from .forms import RecipeForm
-from django.contrib.auth.models import User  
 
 def home(request):
-    recent_recipes = Recipe.objects.all().order_by('-created_at')[:6]
+    featured_recipes = Recipe.objects.all().order_by('-created_at')[:6]
+    total_recipes = Recipe.objects.count()
+    total_users = User.objects.count()
+    thirty_days_ago = timezone.now() - timedelta(days=30)
+    recent_recipes_count = Recipe.objects.filter(created_at__gte=thirty_days_ago).count()
     
-    categories_count = {}
-    for cat_code, cat_name in Recipe.CATEGORY_CHOICES:
-        count = Recipe.objects.filter(category=cat_code).count()
+    category_counts = {}
+    for category in Category.objects.all():
+        count = category.recipes.count()
         if count > 0:
-            categories_count[cat_name] = count
+            category_counts[category.name] = count
+    
+    user_favorite_ids = []
+    if request.user.is_authenticated:
+        user_favorite_ids = request.user.favorite_recipes.values_list('id', flat=True)
     
     context = {
-        'featured_recipes': recent_recipes,
-        'categories_count': categories_count,
+        'featured_recipes': featured_recipes,
+        'total_recipes': total_recipes,
+        'total_users': total_users,
+        'recent_count': recent_recipes_count,
+        'categories_count': category_counts,
+        'user_favorites': user_favorite_ids,
     }
-    
     return render(request, 'home.html', context)
 
 def recipes(request):
-    category_filter = request.GET.get('category')
+    # Get parameters from URL
+    category_filter = request.GET.get('category', 'all')
     sort_by = request.GET.get('sort', '-created_at')
     
+    # Start with all recipes
     all_recipes = Recipe.objects.all()
     
+    # Apply category filter
     if category_filter and category_filter != 'all':
-        all_recipes = all_recipes.filter(category=category_filter)
+        all_recipes = all_recipes.filter(categories__name__iexact=category_filter)
     
+    # Apply sorting - THIS IS THE KEY PART
     if sort_by == 'title':
         all_recipes = all_recipes.order_by('title')
     elif sort_by == '-title':
@@ -46,9 +60,15 @@ def recipes(request):
         all_recipes = all_recipes.order_by('-created_at')
     elif sort_by == 'prep_time':
         all_recipes = all_recipes.order_by('prep_time')
+    elif sort_by == '-prep_time':
+        all_recipes = all_recipes.order_by('-prep_time')
+    else:
+        all_recipes = all_recipes.order_by('-created_at')  # Default sort
     
-    categories = Recipe.CATEGORY_CHOICES
+    # Get all categories for the filter buttons
+    categories = Category.objects.all()
     
+    # Get user's favorite recipe IDs
     favorite_ids = []
     if request.user.is_authenticated:
         favorite_ids = request.user.favorite_recipes.values_list('id', flat=True)
@@ -61,6 +81,26 @@ def recipes(request):
         'favorite_ids': list(favorite_ids),
     }
     
+    return render(request, 'recipes.html', context)
+
+def quick_recipes(request):
+    # Get quick recipes (prep time <= 30 minutes)
+    quick_recipes_list = Recipe.objects.filter(
+        prep_time__lte=30, 
+        prep_time__isnull=False
+    ).order_by('prep_time')
+    
+    favorite_ids = []
+    if request.user.is_authenticated:
+        favorite_ids = request.user.favorite_recipes.values_list('id', flat=True)
+    
+    context = {
+        'recipes': quick_recipes_list,
+        'current_sort': 'prep_time',
+        'categories': Category.objects.all(),
+        'favorite_ids': list(favorite_ids),
+        'current_category': 'all',
+    }
     return render(request, 'recipes.html', context)
 
 def register(request):
@@ -107,7 +147,6 @@ def search(request):
             Q(instructions__icontains=query)
         )
     elif category:
-        # Search by category keyword
         results = Recipe.objects.filter(
             Q(title__icontains=category) | 
             Q(ingredients__icontains=category)
@@ -123,19 +162,15 @@ def profile(request):
 @login_required
 def add_recipe(request):
     if request.method == "POST":
-        print("POST data:", request.POST)  
-        print("FILES data:", request.FILES)  
-        
         form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
-            print("Form is valid!") 
             recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.save()
+            form.save_m2m()  # IMPORTANT: This saves the many-to-many categories
             messages.success(request, "Recipe added successfully!")
             return redirect("recipes")
         else:
-            print("Form errors:", form.errors) 
             messages.error(request, "Please correct the errors below.")
     else:
         form = RecipeForm()
@@ -170,24 +205,19 @@ def delete_recipe(request, id):
 
 @login_required
 def favorite_recipe(request, id):
-    """Add or remove a recipe from user's favorites"""
     recipe = get_object_or_404(Recipe, id=id)
     
     if recipe.favorited_by.filter(id=request.user.id).exists():
-        # Remove from favorites
         recipe.favorited_by.remove(request.user)
         messages.success(request, f'Removed "{recipe.title}" from favorites.')
     else:
-        # Add to favorites
         recipe.favorited_by.add(request.user)
         messages.success(request, f'Added "{recipe.title}" to favorites!')
     
-    # Redirect back to the same page
     return redirect(request.META.get('HTTP_REFERER', 'recipes'))
 
 @login_required
 def favorites_page(request):
-    """Display user's favorite recipes"""
     favorite_recipes = request.user.favorite_recipes.all().order_by('-created_at')
     
     context = {
@@ -199,7 +229,6 @@ def favorites_page(request):
 
 @login_required
 def ajax_favorite_recipe(request, id):
-    """Handle favorite toggling via AJAX (no page reload)"""
     recipe = get_object_or_404(Recipe, id=id)
     
     if recipe.favorited_by.filter(id=request.user.id).exists():
@@ -216,23 +245,3 @@ def ajax_favorite_recipe(request, id):
         'message': message,
         'favorite_count': recipe.favorited_by.count()
     })
-def quick_recipes(request):
-    """View to display recipes that take 30 minutes or less"""
-    # This captures everything 30 mins and under, including your catfish!
-    quick_list = Recipe.objects.filter(prep_time__lte=30).order_by('prep_time')
-    
-    context = {
-        'recipes': quick_list,
-        'title': 'Under 30 Minutes'
-    }
-    return render(request, 'recipes.html', context)
-def quick_recipes(request):
-    """View to display recipes that take 30 minutes or less"""
-    # This captures everything 30 mins and under, including your catfish!
-    quick_list = Recipe.objects.filter(prep_time__lte=30).order_by('prep_time')
-    
-    context = {
-        'recipes': quick_list,
-        'title': 'Under 30 Minutes'
-    }
-    return render(request, 'recipes.html', context)

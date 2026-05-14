@@ -8,6 +8,16 @@ class Profile(models.Model):
     def __str__(self):
         return self.user.username
 
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+    icon = models.CharField(max_length=50, blank=True, help_text="FontAwesome icon class")
+    
+    class Meta:
+        verbose_name_plural = "Categories"
+    
+    def __str__(self):
+        return self.name
+
 class Recipe(models.Model):
     title = models.CharField(max_length=100)
     ingredients = models.TextField()
@@ -18,7 +28,7 @@ class Recipe(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipes')
     
     favorited_by = models.ManyToManyField(User, related_name='favorite_recipes', blank=True)
-    
+
     CATEGORY_CHOICES = [
         ('breakfast', 'Breakfast'),
         ('lunch', 'Lunch'),
@@ -30,10 +40,10 @@ class Recipe(models.Model):
         ('quick', 'Quick & Easy'),
     ]
     
-    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='dinner')
+    categories = models.ManyToManyField(Category, related_name='recipes', blank=True)
     prep_time = models.IntegerField(help_text="Preparation time in minutes", blank=True, null=True)
     cook_time = models.IntegerField(help_text="Cooking time in minutes", blank=True, null=True)
-    
+
     def __str__(self):
         return self.title
     
@@ -48,14 +58,3 @@ class Recipe(models.Model):
         if user.is_authenticated:
             return self.favorited_by.filter(id=user.id).exists()
         return False
-    
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-    icon = models.CharField(max_length=50, blank=True, help_text="FontAwesome icon class")
-    
-    class Meta:
-        verbose_name_plural = "Categories"
-    
-    def __str__(self):
-        return self.name
-
