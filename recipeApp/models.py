@@ -28,19 +28,8 @@ class Recipe(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipes')
     
     favorited_by = models.ManyToManyField(User, related_name='favorite_recipes', blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=True, related_name='recipes')
 
-    CATEGORY_CHOICES = [
-        ('breakfast', 'Breakfast'),
-        ('lunch', 'Lunch'),
-        ('dinner', 'Dinner'),
-        ('dessert', 'Dessert'),
-        ('appetizer', 'Appetizer'),
-        ('snack', 'Snack'),
-        ('vegetarian', 'Vegetarian'),
-        ('quick', 'Quick & Easy'),
-    ]
-    
-    categories = models.ManyToManyField(Category, related_name='recipes', blank=True)
     prep_time = models.IntegerField(help_text="Preparation time in minutes", blank=True, null=True)
     cook_time = models.IntegerField(help_text="Cooking time in minutes", blank=True, null=True)
 
@@ -54,7 +43,6 @@ class Recipe(models.Model):
         return None
     
     def is_favorited_by(self, user):
-        """Check if recipe is favorited by a user"""
         if user.is_authenticated:
             return self.favorited_by.filter(id=user.id).exists()
         return False

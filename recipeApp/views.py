@@ -38,18 +38,14 @@ def home(request):
     return render(request, 'home.html', context)
 
 def recipes(request):
-    # Get parameters from URL
     category_filter = request.GET.get('category', 'all')
     sort_by = request.GET.get('sort', '-created_at')
     
-    # Start with all recipes
     all_recipes = Recipe.objects.all()
     
-    # Apply category filter
     if category_filter and category_filter != 'all':
-        all_recipes = all_recipes.filter(categories__name__iexact=category_filter)
+        all_recipes = all_recipes.filter(category__name__iexact=category_filter)
     
-    # Apply sorting - THIS IS THE KEY PART
     if sort_by == 'title':
         all_recipes = all_recipes.order_by('title')
     elif sort_by == '-title':
@@ -63,12 +59,10 @@ def recipes(request):
     elif sort_by == '-prep_time':
         all_recipes = all_recipes.order_by('-prep_time')
     else:
-        all_recipes = all_recipes.order_by('-created_at')  # Default sort
+        all_recipes = all_recipes.order_by('-created_at')
     
-    # Get all categories for the filter buttons
     categories = Category.objects.all()
     
-    # Get user's favorite recipe IDs
     favorite_ids = []
     if request.user.is_authenticated:
         favorite_ids = request.user.favorite_recipes.values_list('id', flat=True)
@@ -84,7 +78,6 @@ def recipes(request):
     return render(request, 'recipes.html', context)
 
 def quick_recipes(request):
-    # Get quick recipes (prep time <= 30 minutes)
     quick_recipes_list = Recipe.objects.filter(
         prep_time__lte=30, 
         prep_time__isnull=False
@@ -167,7 +160,6 @@ def add_recipe(request):
             recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.save()
-            form.save_m2m()  # IMPORTANT: This saves the many-to-many categories
             messages.success(request, "Recipe added successfully!")
             return redirect("recipes")
         else:
