@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.utils import timezone  
 from datetime import timedelta  
 from django.contrib.auth.models import User  
+from django.http import JsonResponse
 from .models import Recipe, Profile, Category
 from .forms import RecipeForm
 
@@ -44,7 +45,15 @@ def recipes(request):
     all_recipes = Recipe.objects.all()
     
     if category_filter and category_filter != 'all':
-        all_recipes = all_recipes.filter(category__name__iexact=category_filter)
+        if 'quick' in category_filter.lower():
+            all_recipes = all_recipes.filter(
+                Q(category__name__icontains='Quick'),
+                prep_time__lte=30
+            ).extra(
+                where=["(prep_time + cook_time) <= 30"]
+            )
+        else:
+            all_recipes = all_recipes.filter(category__name__iexact=category_filter)
     
     if sort_by == 'title':
         all_recipes = all_recipes.order_by('title')
@@ -77,25 +86,6 @@ def recipes(request):
     
     return render(request, 'recipes.html', context)
 
-def quick_recipes(request):
-    quick_recipes_list = Recipe.objects.filter(
-        prep_time__lte=30, 
-        prep_time__isnull=False
-    ).order_by('prep_time')
-    
-    favorite_ids = []
-    if request.user.is_authenticated:
-        favorite_ids = request.user.favorite_recipes.values_list('id', flat=True)
-    
-    context = {
-        'recipes': quick_recipes_list,
-        'current_sort': 'prep_time',
-        'categories': Category.objects.all(),
-        'favorite_ids': list(favorite_ids),
-        'current_category': 'all',
-    }
-    return render(request, 'recipes.html', context)
-
 def register(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -114,7 +104,6 @@ def register(request):
 def recipe_detail(request, id):
     recipe = get_object_or_404(Recipe, id=id)
     is_favorited = False
-    favorite_count = recipe.favorited_by.count()
     
     if request.user.is_authenticated:
         is_favorited = recipe.favorited_by.filter(id=request.user.id).exists()
