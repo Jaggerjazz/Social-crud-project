@@ -3,19 +3,19 @@ Group: Jasmine Cervantes and Melanie Avila
 # 🍳 Community Cookbook
 A social web application for sharing and discovering recipes.
 
-## 🚧 PROJECT STATUS: SPRINT 3 (IN PROGRESS)
-- [x] Sprint 1: Repository setup & Agile Documentation (COMPLETED)
-- [x] Sprint 2: App creation & Models (IN PROGRESS)
-- [x] Sprint 3: Building "Create" and "Read" views with User Management. (IN PROGRESS)
-- [ ] Sprint 4: "Update/Delete" functionality and final UI styling.
+## 🚧 PROJECT STATUS: SPRINT 4 (COMPLETED)
+- [x] Sprint 1: Repository setup & Agile Documentation 
+- [x] Sprint 2: App creation, Category Models, and Home View UI
+- [x] Sprint 3: Building "Create" and "Read" views with User Management.
+- [x] Sprint 4: "Update/Delete" functionality, User Search, and Public Profiles
 
 ---
 
 ## 📋 Project Planning: Sprints
 - **Sprint 1:** Repository setup and Agile documentation.
-- **Sprint 2:** Django structure, App creation, and Home View UI (Current Delivery).
+- **Sprint 2:** Django structure, App creation, and Home View UI.
 - **Sprint 3:** Building "Create" and "Read" views with User Management.
-- **Sprint 4:** "Update/Delete" functionality and final UI styling.
+- **Sprint 4:** Implementation of Update/Delete, Favoriting system, User-to-User search, and Public Profiles.
 
 ---
 
@@ -38,11 +38,14 @@ A social web application for sharing and discovering recipes.
 * **Read:** The system shall display a list of all submitted recipes on the home feed and search results.
 * **Update:** The system shall allow recipe owners to modify the content of their existing posts.
 * **Delete:** The system shall allow recipe owners to permanently remove their posts from the database.
+* **User Profiles:** profile pages that aggregate all recipes by a specific author.
+* **Favoriting:** Authenticated users can save recipes to a personal "My Favorites" list.
 
 ---
 
 ## 💻 Tech Stack
-- **Framework:** Django 4.2.x (LTS)
+- **Framework:** Django 5.x
 - **Language:** Python 3.x
 - **Database:** SQLite
+- **Frontend:** Bootstrap 5.3.3 & FontAwesome 6.0
 - **Collaboration:** Git Bash / GitHub
