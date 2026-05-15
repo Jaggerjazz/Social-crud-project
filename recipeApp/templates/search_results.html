@@ -5,18 +5,40 @@
     <h2>Search Results for: "{{ query }}"</h2>
     <hr>
 
+    {% if user_results %}
+    <div class="mb-5">
+        <h4><i class="fas fa-users"></i> Users Found</h4>
+        <div class="list-group">
+            {% for user in user_results %}
+            <a href="{% url 'user_profile' user.username %}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                <span><i class="fas fa-user-circle"></i> {{ user.username }}</span>
+                <span class="badge bg-primary rounded-pill">{{ user.recipe_set.count }} Recipes</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <h4><i class="fas fa-utensils"></i> Recipes Found</h4>
     <div class="row">
-        {% for recipe in results %}
+        {% for recipe in recipe_results %}
             <div class="col-md-4 mb-4">
-                <div class="card h-100">
+                <div class="card h-100 shadow-sm">
                     {% if recipe.image %}
                         <img src="{{ recipe.image.url }}" class="card-img-top" alt="{{ recipe.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                        <div class="bg-light text-center py-5" style="height: 200px;">
+                            <i class="fas fa-utensils fa-3x text-muted"></i>
+                        </div>
                     {% endif %}
                     
                     <div class="card-body">
                         <h5 class="card-title">{{ recipe.title }}</h5>
+                        <p class="card-text text-muted small">
+                            <i class="fas fa-user"></i> {{ recipe.author.username }}
+                        </p>
                         <p class="card-text">{{ recipe.ingredients|truncatewords:15 }}</p>
-                        <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary">View Full Recipe</a>
+                        <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary w-100">View Full Recipe</a>
                     </div>
                 </div>
             </div>
@@ -29,6 +51,8 @@
         {% endfor %}
     </div>
     
-    <a href="{% url 'home' %}" class="btn btn-secondary mt-3">Back to Home</a>
+    <div class="mt-4">
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+    </div>
 </div>
 {% endblock %}

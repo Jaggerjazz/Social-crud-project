@@ -120,21 +120,37 @@ def search(request):
     query = request.GET.get('q')
     category = request.GET.get('category')
     
-    results = Recipe.objects.none()
+    recipe_results = Recipe.objects.none()
+    user_results = User.objects.none()
     
     if query:
-        results = Recipe.objects.filter(
+        recipe_results = Recipe.objects.filter(
             Q(title__icontains=query) | 
             Q(ingredients__icontains=query) |
             Q(instructions__icontains=query)
         )
+        user_results = User.objects.filter(username__icontains=query)
     elif category:
-        results = Recipe.objects.filter(
+        recipe_results = Recipe.objects.filter(
             Q(title__icontains=category) | 
             Q(ingredients__icontains=category)
         )
     
-    return render(request, 'search_results.html', {'results': results, 'query': query or category})
+    context = {
+        'recipe_results': recipe_results,
+        'user_results': user_results,
+        'query': query or category
+    }
+    
+    return render(request, 'search_results.html', context)
+
+def user_profile(request, username):
+    target_user = get_object_or_404(User, username=username)
+    recipes = Recipe.objects.filter(author=target_user).order_by('-created_at')
+    return render(request, 'user_profile.html', {
+        'target_user': target_user,
+        'recipes': recipes
+    })
 
 @login_required
 def profile(request):

@@ -15,6 +15,7 @@ urlpatterns = [
     path('favorite/<int:id>/', views.favorite_recipe, name='favorite_recipe'),
     path('ajax/favorite/<int:id>/', views.ajax_favorite_recipe, name='ajax_favorite_recipe'),
     path('profile/', views.profile, name='profile'),
+    path('profile/<str:username>/', views.user_profile, name='user_profile'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
 ]

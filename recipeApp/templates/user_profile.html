@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}{{ target_user.username }}'s Recipes{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col">
+            <h1><i class="fas fa-user-circle"></i> {{ target_user.username }}</h1>
+            <p class="text-muted">Viewing shared recipes</p>
+        </div>
+        <div class="col-auto">
+            <span class="badge bg-primary fs-5">{{ recipes.count }} Recipes</span>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        {% for recipe in recipes %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    {% if recipe.image %}
+                        <img src="{{ recipe.image.url }}" class="card-img-top" style="height: 200px; object-fit: cover;">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ recipe.title }}</h5>
+                        <a href="{% url 'recipe_detail' recipe.id %}" class="btn btn-primary w-100">View Recipe</a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center py-5 text-muted">This user hasn't shared any recipes yet.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

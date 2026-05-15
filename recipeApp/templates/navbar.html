@@ -5,7 +5,6 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!-- Main Navigation Links -->
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'home' %}">
@@ -31,15 +30,13 @@
         {% endif %}
       </ul>
       
-      <!-- Search Form -->
       <form class="d-flex me-3" role="search" action="{% url 'search' %}" method="GET">
-        <input class="form-control me-2" type="search" name="q" placeholder="Search recipes..." aria-label="Search">
+        <input class="form-control me-2" type="search" name="q" placeholder="Search for a recipe or user..." aria-label="Search">
         <button class="btn btn-outline-success" type="submit">
           <i class="fas fa-search"></i> Search
         </button>
       </form>
 
-      <!-- User Profile Dropdown -->
       <div class="dropdown">
         {% if user.is_authenticated %}
           <button class="btn btn-outline-primary dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -89,7 +86,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
 <style>
-  /* Optional: Add some hover effects */
   .navbar-nav .nav-link:hover {
     transform: translateY(-2px);
     transition: transform 0.2s ease;
